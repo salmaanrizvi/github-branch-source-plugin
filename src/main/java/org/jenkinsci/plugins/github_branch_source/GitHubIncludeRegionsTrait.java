@@ -263,7 +263,7 @@ public class GitHubIncludeRegionsTrait extends SCMSourceTrait {
         return filtered;
     }
 
-    static String getOrSetLastBuiltCommit(SCMSourceOwner owner, @NotNull GHBranch branch) {
+    static String setLastBuiltCommit(SCMSourceOwner owner, @NotNull GHBranch branch) {
         if (owner == null) {
             LOGGER.info("null owner - cant get or set last built commit for branch {}", branch.getName());
             return branch.getSHA1();
@@ -277,12 +277,6 @@ public class GitHubIncludeRegionsTrait extends SCMSourceTrait {
         }
 
         GitHubIncludeRegionsTrait ghTrait = traits.get(0);
-        String sha = ghTrait.getLastMatchedShaForBranch(branch.getName());
-        if (sha != null) {
-            return sha;
-        }
-
-        LOGGER.info("{} No sha was set for branch {} - setting value to {}", logPrefix, branch.getName(), branch.getSHA1());
         ghTrait.putLastMatchedShaForBranch(branch.getName(), branch.getSHA1());
         return branch.getSHA1();
     }
